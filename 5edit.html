@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html><head><title>5edit</title>
+<style>
+
+body {
+  font-family: tahoma, arial;
+  font-size: 9pt;
+  color: #cccccc;
+  background-color: #121212;
+}
+
+div {
+  background-color: #ffffff;
+  color: #000000;
+  margin: 10px;
+}
+
+h1, h2, h3, h4, h5, h6 {font-weight: bold}
+h1 {font-size: 16pt}
+h2 {font-size: 14pt}
+h3 {font-size: 12pt}
+h4 {font-size: 10pt}
+h5 {font-size: 8pt}
+h6 {font-size: 6pt}
+ol li{list-style: decimal}
+ul li{list-style: disc}
+
+#editBar {
+  height: 26px;
+  padding: 3px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background: #333333;
+  background: -moz-linear-gradient(top,  rgba(117,117,117,0.65) 0%, rgba(117,117,117,0) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(117,117,117,0.65)), color-stop(100%,rgba(117,117,117,0))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  rgba(117,117,117,0.65) 0%,rgba(117,117,117,0) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  rgba(117,117,117,0.65) 0%,rgba(117,117,117,0) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  rgba(117,117,117,0.65) 0%,rgba(117,117,117,0) 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  rgba(117,117,117,0.65) 0%,rgba(117,117,117,0) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6757575', endColorstr='#00757575',GradientType=0 ); /* IE6-9 */
+}
+
+button.edButton, span.edButton, input.edButton, select.edButton, option.edButton {
+  height: 24px;
+  min-width: 24px;
+  font-weight: normal;
+  font-size: 10px;
+  color: #121212;
+  background: none;
+  display: inline-block;
+  float: left;
+  cursor: pointer;
+  text-align: center;
+  padding: 0px 4px;
+  margin: 0px;
+  border-style: none;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+
+option.edButton {
+  display: block;
+  float: none;
+  clear: both;
+}
+
+span.edSeparator {
+  height: 24px;
+  width: 0px;
+  display: inline-block;
+  float: left;
+  border-left: solid 1px black;
+  background: none;
+  padding: 0px;
+  margin: 0px 5px;
+}
+
+button.edButton:hover, span.edButton:hover, input.edButton:hover, select.edButton:hover, option.edButton:hover, option.edButton[selected] {
+  color: #000000;
+  background: rgb(191,210,85); /* Old browsers */
+  background: -moz-linear-gradient(top,  rgba(191,210,85,1) 0%, rgba(142,185,42,1) 50%, rgba(114,170,0,1) 51%, rgba(158,203,45,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(191,210,85,1)), color-stop(50%,rgba(142,185,42,1)), color-stop(51%,rgba(114,170,0,1)), color-stop(100%,rgba(158,203,45,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  rgba(191,210,85,1) 0%,rgba(142,185,42,1) 50%,rgba(114,170,0,1) 51%,rgba(158,203,45,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  rgba(191,210,85,1) 0%,rgba(142,185,42,1) 50%,rgba(114,170,0,1) 51%,rgba(158,203,45,1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  rgba(191,210,85,1) 0%,rgba(142,185,42,1) 50%,rgba(114,170,0,1) 51%,rgba(158,203,45,1) 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  rgba(191,210,85,1) 0%,rgba(142,185,42,1) 50%,rgba(114,170,0,1) 51%,rgba(158,203,45,1) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bfd255', endColorstr='#9ecb2d',GradientType=0 ); /* IE6-9 */
+}
+
+.edButton[disabled], .edButton:disabled {
+  color: #666666;
+}
+
+.edButton:hover[disabled], .edButton:disabled {
+  color: #666666;
+  background: none;
+  cursor: default;
+}
+
+.btnLoad {
+  display: block;
+  width: 132px;
+  height: 26px;
+  padding: 3px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  color: #000000;
+  background: -moz-linear-gradient(top,  rgba(117,117,117,0.65) 0%, rgba(117,117,117,0) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(117,117,117,0.65)), color-stop(100%,rgba(117,117,117,0))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  rgba(117,117,117,0.65) 0%,rgba(117,117,117,0) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  rgba(117,117,117,0.65) 0%,rgba(117,117,117,0) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  rgba(117,117,117,0.65) 0%,rgba(117,117,117,0) 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  rgba(117,117,117,0.65) 0%,rgba(117,117,117,0) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6757575', endColorstr='#00757575',GradientType=0 ); /* IE6-9 */  
+}
+
+.btnLoad:hover, .btnLoad:active {
+  background: rgb(191,210,85); /* Old browsers */
+  background: -moz-linear-gradient(top,  rgba(191,210,85,1) 0%, rgba(142,185,42,1) 50%, rgba(114,170,0,1) 51%, rgba(158,203,45,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(191,210,85,1)), color-stop(50%,rgba(142,185,42,1)), color-stop(51%,rgba(114,170,0,1)), color-stop(100%,rgba(158,203,45,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  rgba(191,210,85,1) 0%,rgba(142,185,42,1) 50%,rgba(114,170,0,1) 51%,rgba(158,203,45,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  rgba(191,210,85,1) 0%,rgba(142,185,42,1) 50%,rgba(114,170,0,1) 51%,rgba(158,203,45,1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  rgba(191,210,85,1) 0%,rgba(142,185,42,1) 50%,rgba(114,170,0,1) 51%,rgba(158,203,45,1) 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  rgba(191,210,85,1) 0%,rgba(142,185,42,1) 50%,rgba(114,170,0,1) 51%,rgba(158,203,45,1) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bfd255', endColorstr='#9ecb2d',GradientType=0 ); /* IE6-9 */
+}
+
+[contenteditable] {
+  background-color: #ffffcc;
+  padding: 1px;
+}
+
+[contenteditable]:focus {
+  background: none;
+  border: solid #ffcccc 1px;
+  padding: 0px;
+}
+
+#colorPicker, #chars {
+    position: absolute;
+    color: #000000;
+    background-color: #ffffff;
+    display: none;
+}
+
+#colorPicker td {
+    height: 10px;
+    cursor: pointer;
+}
+
+#chars td {
+    padding: 0px 5px;
+    cursor: pointer;
+}
+
+#wrapper {
+  border: solid gray 1px;
+  border-top: none;
+  min-height: 400px;
+  margin-top: 0px;
+}
+
+#title {
+  font-weight: bold;
+}
+
+</style><script src="rangy/rangy-core.js"></script><script>
+
+var Debug, editField, colorMode, fgColor, bgColor, fonts=[];
+
+function InitPage() {
+    Debug=document.getElementById('editorDebug');
+    fontDetect=new fontDetector();
+    fontInit();
+    disableAdvanced();
+    document.body.onmouseup=setFont;
+    document.body.onkeyup=setFont;
+}
+
+function setEditField(field, limit) {
+    if (limit) disableAdvanced();
+    else enableAdvanced();
+    editField = document.getElementById(field);
+}
+
+function disableAdvanced() {
+    document.getElementById('edBtnFont').disabled = true;
+    document.getElementById('edBtnSize').disabled = true;
+    document.getElementById('edBtnHead').disabled = true;
+    document.getElementById('edBtnUl').disabled = true;
+    document.getElementById('edBtnOl').disabled = true;
+    document.getElementById('edBtnHr').disabled = true;
+    document.getElementById('edBtnLink').disabled = true;
+    document.getElementById('edBtnImg').disabled = true;
+    document.getElementById('edBtnMedia').disabled = true;
+}
+
+function enableAdvanced() {
+    document.getElementById('edBtnFont').disabled = false;
+    document.getElementById('edBtnSize').disabled = false;
+    document.getElementById('edBtnHead').disabled = false;
+    document.getElementById('edBtnUl').disabled = false;
+    document.getElementById('edBtnOl').disabled = false;
+    document.getElementById('edBtnHr').disabled = false;
+    document.getElementById('edBtnLink').disabled = false;
+    document.getElementById('edBtnImg').disabled = false;
+    document.getElementById('edBtnMedia').disabled = false;
+}
+
+function isEditableField(sel) {
+    var parent;
+    var nextElement = sel.anchorNode;
+
+    // if we're in an editable region
+    if (nextElement.contentEditable == 'true') return true;
+
+    // if we're inheriting an editable region
+    do {
+        parent = nextElement.parentNode.id;
+        nextElement = nextElement.parentNode;
+    } while (parent == null || parent == '')
+
+    if (document.getElementById(parent).contentEditable == 'true') return true;
+    else return false;
+}
+
+function showColorPicker(mode) {
+    colorMode = mode;
+    document.getElementById('chars').style.display = 'none';
+    document.getElementById('colorPicker').style.display = 'block';
+}
+
+function hideColorPicker() {
+    document.getElementById('colorPicker').style.display = 'none';
+}
+
+function selectColor(newColor) {
+    document.getElementById('pickColor').value = newColor;
+    if (colorMode=='fg') document.getElementById('pickColor').style.color = '#' + newColor;
+    else if (colorMode=='bg') document.getElementById('pickColor').style.backgroundColor = '#' + newColor;
+}
+
+function useColor() {
+    hideColorPicker();
+    if (colorMode=='fg') {
+        fgColor=document.getElementById('pickColor').value;
+        document.getElementById('edBtnApplyColor').style.color='#'+fgColor;
+    }
+    if (colorMode=='bg') {
+        bgColor=document.getElementById('pickColor').value;
+        document.getElementById('edBtnApplyColor').style.backgroundColor='#'+bgColor;
+    }
+}
+
+function applyColor() {
+    var sel = rangy.getSelection();
+
+    if (sel != '' && isEditableField(sel)) {
+        var html = '';
+        for (var i = 0; i < sel.rangeCount; i++) {
+            var nNd = document.createElement('span');
+            var w = sel.getRangeAt(i);
+            w.surroundContents(nNd);
+            nNd.style.color = '#'+fgColor;
+            nNd.style.backgroundColor = '#'+bgColor;
+            html += nNd.innerHTML;
+        }
+    }
+}
+
+function showChars() {
+    document.getElementById('colorPicker').style.display = 'none';
+    document.getElementById('chars').style.display = 'block';
+}
+
+function hideChars() {
+    document.getElementById('chars').style.display = 'none';
+}
+
+function selectChar(symbol) {
+    document.getElementById('pickChar').value='&'+symbol+';';
+}
+
+function useChar() {
+    var sel = rangy.getSelection();
+    var w = sel.getRangeAt(0);
+    var symbol = document.getElementById('pickChar').value;
+    if (isEditableField(sel)) {
+        var html = '';
+        var nNd = document.createElement('span');
+        nNd.innerHTML=symbol;
+        w.deleteContents();
+        w.insertNode(nNd);
+
+        return nNd;
+    }
+
+    return null;
+    document.getElementById('chars').style.display = 'none';
+}
+
+function insertMedia(url) {
+  if (url) {
+    var sel = rangy.getSelection();
+    var w = sel.getRangeAt(0);
+
+    if (isEditableField(sel)) {
+      var html = '';
+      var nNd = document.createElement('iframe');
+      nNd.src = url;
+      w.deleteContents();
+      w.insertNode(nNd);
+
+      return nNd;
+    }
+  }
+  return null;
+}
+
+function setFont() {
+    var sel = rangy.getSelection();
+        
+    for (var i = 0; i < sel.rangeCount; i++) {
+        var nNd = document.createElement('span');
+        var w = sel.getRangeAt(0);
+        w.surroundContents(nNd);
+    }
+
+    var thisFont = window.getComputedStyle(nNd, null).getPropertyValue('font-family');
+
+    var elem = document.getElementById('edBtnFont');
+    for (var i = 0; i < elem.options.length; i++) {
+        if (elem.options[i].text == thisFont) {
+            elem.selectedIndex = i;
+            break;
+        }
+    }
+}
+
+function fontInit() {
+    fonts.push("default");
+    fonts.push("sans-serif");
+    fonts.push("serif");
+    fonts.push("monospace");
+    fonts.push("fantasy");
+    fonts.push("cursive");
+    fonts.push("Arial");
+    fonts.push("Arial Black");
+    fonts.push("Arial Narrow");
+    fonts.push("Arial Rounded MT Bold");
+    fonts.push("Bookman Old Style");
+    fonts.push("Bradley Hand ITC");
+    fonts.push("Century");
+    fonts.push("Century Gothic");
+    fonts.push("Comic Sans MS");
+    fonts.push("Courier");
+    fonts.push("Courier New");
+    fonts.push("Georgia");
+    fonts.push("Gentium");
+    fonts.push("Impact");
+    fonts.push("King");
+    fonts.push("Lucida Console");
+    fonts.push("Lalit");
+    fonts.push("Modena");
+    fonts.push("Monotype Corsiva");
+    fonts.push("Papyrus");
+    fonts.push("Tahoma");
+    fonts.push("TeX");
+    fonts.push("Times");
+    fonts.push("Times New Roman");
+    fonts.push("Trebuchet MS");
+    fonts.push("Verdana");
+    fonts.push("Verona");
+
+    for (i = 0; i < fonts.length; i++) {
+        var result=fontDetect.detect(fonts[i]);
+        if (result==true) {
+            var option=document.createElement('option');
+            option.text=fonts[i];
+            option.style.fontFamily=fonts[i];
+            document.getElementById('edBtnFont').add(option, null);
+        }
+    }
+}
+
+/**
+ * JavaScript code to detect available availability of a
+ * particular font in a browser using JavaScript and CSS.
+ *
+ * Author : Lalit Patel
+ * Website: http://www.lalit.org/lab/javascript-css-font-detect/
+ * License: Apache Software License 2.0
+ *          http://www.apache.org/licenses/LICENSE-2.0
+ * Version: 0.15 (21 Sep 2009)
+ *          Changed comparision font to default from sans-default-default,
+ *          as in FF3.0 font of child element didn't fallback
+ *          to parent element if the font is missing.
+ * Version: 0.2 (04 Mar 2012)
+ *          Comparing font against all the 3 generic font families ie,
+ *          'monospace', 'sans-serif' and 'sans'. If it doesn't match all 3
+ *          then that font is 100% not available in the system
+ * Version: 0.3 (24 Mar 2012)
+ *          Replaced sans with serif in the list of baseFonts
+ */
+
+var fontDetector = function() {
+    // a font will be compared against all the three default fonts.
+    // and if it doesn't match all 3 then that font is not available.
+    var baseFonts = ['monospace', 'sans-serif', 'serif'];
+
+    //we use m or w because these two characters take up the maximum width.
+    // And we use a LLi so that the same matching fonts can get separated
+    var testString = "mmmmmmmmmmlli";
+
+    //we test using 72px font size, we may use any size. I guess larger the better.
+    var testSize = '72px';
+
+    var h = document.getElementsByTagName("body")[0];
+
+    // create a SPAN in the document to get the width of the text we use to test
+    var s = document.createElement("span");
+    s.style.fontSize = testSize;
+    s.innerHTML = testString;
+    var defaultWidth = {};
+    var defaultHeight = {};
+    for (var index in baseFonts) {
+        //get the default width for the three base fonts
+        s.style.fontFamily = baseFonts[index];
+        h.appendChild(s);
+        defaultWidth[baseFonts[index]] = s.offsetWidth; //width for the default font
+        defaultHeight[baseFonts[index]] = s.offsetHeight; //height for the defualt font
+        h.removeChild(s);
+    }
+
+    function detect(font) {
+        var detected = false;
+        for (var index in baseFonts) {
+            s.style.fontFamily = font + ',' + baseFonts[index]; // name of the font along with the base font for fallback.
+            h.appendChild(s);
+            var matched = (s.offsetWidth != defaultWidth[baseFonts[index]] || s.offsetHeight != defaultHeight[baseFonts[index]]);
+            h.removeChild(s);
+            detected = detected || matched;
+        }
+        return detected;
+    }
+
+    this.detect = detect;
+};
+
+var ready = (function(){    
+
+    var readyList,
+        DOMContentLoaded,
+        class2type = {};
+        class2type["[object Boolean]"] = "boolean";
+        class2type["[object Number]"] = "number";
+        class2type["[object String]"] = "string";
+        class2type["[object Function]"] = "function";
+        class2type["[object Array]"] = "array";
+        class2type["[object Date]"] = "date";
+        class2type["[object RegExp]"] = "regexp";
+        class2type["[object Object]"] = "object";
+
+    var ReadyObj = {
+        // Is the DOM ready to be used? Set to true once it occurs.
+        isReady: false,
+        // A counter to track how many items to wait for before
+        // the ready event fires. See #6781
+        readyWait: 1,
+        // Hold (or release) the ready event
+        holdReady: function( hold ) {
+            if ( hold ) {
+                ReadyObj.readyWait++;
+            } else {
+                ReadyObj.ready( true );
+            }
+        },
+        // Handle when the DOM is ready
+        ready: function( wait ) {
+            // Either a released hold or an DOMready/load event and not yet ready
+            if ( (wait === true && !--ReadyObj.readyWait) || (wait !== true && !ReadyObj.isReady) ) {
+                // Make sure body exists, at least, in case IE gets a little overzealous (ticket #5443).
+                if ( !document.body ) {
+                    return setTimeout( ReadyObj.ready, 1 );
+                }
+
+                // Remember that the DOM is ready
+                ReadyObj.isReady = true;
+                // If a normal DOM Ready event fired, decrement, and wait if need be
+                if ( wait !== true && --ReadyObj.readyWait > 0 ) {
+                    return;
+                }
+                // If there are functions bound, to execute
+                readyList.resolveWith( document, [ ReadyObj ] );
+
+                // Trigger any bound ready events
+                //if ( ReadyObj.fn.trigger ) {
+                //  ReadyObj( document ).trigger( "ready" ).unbind( "ready" );
+                //}
+            }
+        },
+        bindReady: function() {
+            if ( readyList ) {
+                return;
+            }
+            readyList = ReadyObj._Deferred();
+
+            // Catch cases where $(document).ready() is called after the
+            // browser event has already occurred.
+            if ( document.readyState === "complete" ) {
+                // Handle it asynchronously to allow scripts the opportunity to delay ready
+                return setTimeout( ReadyObj.ready, 1 );
+            }
+
+            // Mozilla, Opera and webkit nightlies currently support this event
+            if ( document.addEventListener ) {
+                // Use the handy event callback
+                document.addEventListener( "DOMContentLoaded", DOMContentLoaded, false );
+                // A fallback to window.onload, that will always work
+                window.addEventListener( "load", ReadyObj.ready, false );
+
+            // If IE event model is used
+            } else if ( document.attachEvent ) {
+                // ensure firing before onload,
+                // maybe late but safe also for iframes
+                document.attachEvent( "onreadystatechange", DOMContentLoaded );
+
+                // A fallback to window.onload, that will always work
+                window.attachEvent( "onload", ReadyObj.ready );
+
+                // If IE and not a frame
+                // continually check to see if the document is ready
+                var toplevel = false;
+
+                try {
+                    toplevel = window.frameElement == null;
+                } catch(e) {}
+
+                if ( document.documentElement.doScroll && toplevel ) {
+                    doScrollCheck();
+                }
+            }
+        },
+        _Deferred: function() {
+            var // callbacks list
+                callbacks = [],
+                // stored [ context , args ]
+                fired,
+                // to avoid firing when already doing so
+                firing,
+                // flag to know if the deferred has been cancelled
+                cancelled,
+                // the deferred itself
+                deferred  = {
+
+                    // done( f1, f2, ...)
+                    done: function() {
+                        if ( !cancelled ) {
+                            var args = arguments,
+                                i,
+                                length,
+                                elem,
+                                type,
+                                _fired;
+                            if ( fired ) {
+                                _fired = fired;
+                                fired = 0;
+                            }
+                            for ( i = 0, length = args.length; i < length; i++ ) {
+                                elem = args[ i ];
+                                type = ReadyObj.type( elem );
+                                if ( type === "array" ) {
+                                    deferred.done.apply( deferred, elem );
+                                } else if ( type === "function" ) {
+                                    callbacks.push( elem );
+                                }
+                            }
+                            if ( _fired ) {
+                                deferred.resolveWith( _fired[ 0 ], _fired[ 1 ] );
+                            }
+                        }
+                        return this;
+                    },
+
+                    // resolve with given context and args
+                    resolveWith: function( context, args ) {
+                        if ( !cancelled && !fired && !firing ) {
+                            // make sure args are available (#8421)
+                            args = args || [];
+                            firing = 1;
+                            try {
+                                while( callbacks[ 0 ] ) {
+                                    callbacks.shift().apply( context, args );//shifts a callback, and applies it to document
+                                }
+                            }
+                            finally {
+                                fired = [ context, args ];
+                                firing = 0;
+                            }
+                        }
+                        return this;
+                    },
+
+                    // resolve with this as context and given arguments
+                    resolve: function() {
+                        deferred.resolveWith( this, arguments );
+                        return this;
+                    },
+
+                    // Has this deferred been resolved?
+                    isResolved: function() {
+                        return !!( firing || fired );
+                    },
+
+                    // Cancel
+                    cancel: function() {
+                        cancelled = 1;
+                        callbacks = [];
+                        return this;
+                    }
+                };
+
+            return deferred;
+        },
+        type: function( obj ) {
+            return obj == null ?
+                String( obj ) :
+                class2type[ Object.prototype.toString.call(obj) ] || "object";
+        }
+    }
+    // The DOM ready check for Internet Explorer
+    function doScrollCheck() {
+        if ( ReadyObj.isReady ) {
+            return;
+        }
+
+        try {
+            // If IE is used, use the trick by Diego Perini
+            // http://javascript.nwbox.com/IEContentLoaded/
+            document.documentElement.doScroll("left");
+        } catch(e) {
+            setTimeout( doScrollCheck, 1 );
+            return;
+        }
+
+        // and execute any waiting functions
+        ReadyObj.ready();
+    }
+    // Cleanup functions for the document ready method
+    if ( document.addEventListener ) {
+        DOMContentLoaded = function() {
+            document.removeEventListener( "DOMContentLoaded", DOMContentLoaded, false );
+            ReadyObj.ready();
+        };
+
+    } else if ( document.attachEvent ) {
+        DOMContentLoaded = function() {
+            // Make sure body exists, at least, in case IE gets a little overzealous (ticket #5443).
+            if ( document.readyState === "complete" ) {
+                document.detachEvent( "onreadystatechange", DOMContentLoaded );
+                ReadyObj.ready();
+            }
+        };
+    }
+    function ready( fn ) {
+        // Attach the listeners
+        ReadyObj.bindReady();
+
+        var type = ReadyObj.type( fn );
+
+        // Add the callback
+        readyList.done( fn );//readyList is result of _Deferred()
+    }
+    return ready;
+})();
+
+function saveEdits() {
+  alert(document.getElementById('field1').innerHTML+document.getElementById('field2').innerHTML);
+}
+
+/*  Sample JQuery/Ajax to save changes
+function saveEdits() {
+    var titlespan = $('#titlespan').html();
+    var editthis = $('#editthis').html();
+
+    $.ajax({
+        url: 'formAction.php',
+        type: 'POST',
+        data: {
+            titlespan: titlespan,
+            editthis: editthis
+        },
+        success: function(data) {
+            if (data > 0) {
+                $("#edStatus").addClass("success").html("Data saved successfully").fadeIn('slow').delay(3000).fadeOut('slow');
+            }
+            else {
+                $("#edStatus").addClass("error").html("Error, data could not be saved").fadeIn('slow').delay(3000).fadeOut('slow');
+            }
+        }
+    });
+}*/
+
+function insertTag(tag, attr) {
+    try { document.execCommand(tag, false, attr) }
+    catch(e) { alert(e); }
+}
+
+</script></head><body>
+
+  <div id="wrapper">
+
+    <div id="editBar">
+    
+      <button class="edButton" id="edBtnUnformat" onClick="document.execCommand('removeFormat', false)" title="Remove Formatting">txt</button>
+      
+      <span class="edSeparator"></span>
+    
+      <button class="edButton" id="edBtnBold" onClick="insertTag('bold', null)" title="Bold"><b>B</b></button>
+      <button class="edButton" id="edBtnItal" onClick="insertTag('italic', null)" title="Italic"><i>I</i></button>
+      <button class="edButton" id="edBtnUline" onClick="insertTag('underline', null)" title="Underline"><u>U</u></button>
+      <button class="edButton" id="edBtnStrike" onClick="insertTag('strikeThrough', null)" title="Strikethrough"><strike>S</strike></button>
+      <button class="edButton" id="edBtnSubScr" onClick="insertTag('subscript', null)" title="Subscript">S<sub>ub</sub></button>
+      <button class="edButton" id="edBtnSuperScr" onClick="insertTag('superscript', null)" title="Superscript">S<sup>uper</sup></button>
+      
+      <span class="edSeparator"></span>
+
+      <select class="edButton" id="edBtnFont" onChange="insertTag('fontName', this[this.selectedIndex].value)" title="Font Family" style="text-align: left; font-size: 9pt">
+      </select>
+      
+      <select class="edButton" id="edBtnSize" onChange="insertTag('fontSize', this[this.selectedIndex].value)" title="Font Size">
+        <option class="edButton" id="edBtnSize6" value="7" style="font-size: 36pt">7</option>
+        <option class="edButton" id="edBtnSize7" value="6" style="font-size: 24pt">6</option>
+        <option class="edButton" id="edBtnSize8" value="5" style="font-size: 18pt">5</option>
+        <option class="edButton" id="edBtnSize9" value="4" style="font-size: 13.5pt">4</option>
+        <option class="edButton" id="edBtnSize10" value="3" style="font-size: 12pt">3</option>
+        <option class="edButton" id="edBtnSize11" value="2" style="font-size: 10pt">2</option>
+        <option class="edButton" id="edBtnSize12" value="1" style="font-size: 7.5pt">1</option>
+      </select>
+      
+      <select class="edButton" id="edBtnHead" onChange="insertTag('formatBlock', this[this.selectedIndex].value)" title="Heading or Paragraph">
+        <option class="edButton" id="edBtnP" value="p" title="Paragraph">p</option>
+        <option class="edButton" id="edBtnPre" value="pre" title="Preformatted Text">pre</option>
+        <option class="edButton" id="edBtnHead1" value="h1" title="Heading 1" style="font-size: 16pt; font-weight: bold">H1</option>
+        <option class="edButton" id="edBtnHead2" value="h2" title="Heading 2" style="font-size: 14pt; font-weight: bold">H2</option>
+        <option class="edButton" id="edBtnHead3" value="h3" title="Heading 3" style="font-size: 12pt; font-weight: bold">H3</option>
+        <option class="edButton" id="edBtnHead4" value="h4" title="Heading 4" style="font-size: 10pt; font-weight: bold">H4</option>
+        <option class="edButton" id="edBtnHead5" value="h5" title="Heading 5" style="font-size: 8pt; font-weight: bold">H5</option>
+        <option class="edButton" id="edBtnHead6" value="h6" title="Heading 6" style="font-size: 6pt; font-weight: bold">H6</option>
+      </select>
+
+      <span class="edSeparator"></span>
+
+      <button class="edButton" id="edBtnUl" onClick="insertTag('insertUnorderedList', null)" title="Bulleted List"><img src="ico/bullet.png"></button>
+      <button class="edButton" id="edBtnOl" onClick="insertTag('insertOrderedList', null)" title="Numbered List"><img src="ico/number.png"></button>
+      
+      <span class="edSeparator"></span>
+      
+      <button class="edButton" id="edBtnJustLeft" onClick="insertTag('justifyLeft', null)" style="font-family: Symbola; font-size: 16px" title="Left Align"><img src="ico/al_left.png"></button>
+      <button class="edButton" id="edBtnJustCenter" onClick="insertTag('justifyCenter', null)" style="font-family: Symbola; font-size: 16px" title="Center Align"><img src="ico/al_center.png"></button>
+      <button class="edButton" id="edBtnJustRight" onClick="insertTag('justifyRight', null)" style="font-family: Symbola; font-size: 16px" title="Right Align"><img src="ico/al_right.png"></button>
+      <button class="edButton" id="edBtnJustFull" onClick="insertTag('justifyFull', null)" style="font-family: Symbola; font-size: 16px" title="Justify Align"><img src="ico/al_center.png"></button>
+      <button class="edButton" id="edBtnJustRight" onClick="insertTag('indent', null)" style="font-family: Symbola; font-size: 16px" title="Increase Indent"><img src="ico/ind_inc.png"></button>
+      <button class="edButton" id="edBtnJustFull" onClick="insertTag('outdent', null)" style="font-family: Symbola; font-size: 16px" title="Decrease Indent"><img src="ico/ind_dec.png"></button>
+      
+      <span class="edSeparator"></span>
+      
+      <button class="edButton" id="edBtnColor" onClick="showColorPicker('fg')" title="Foreground Color"><img src="ico/fg_color.png"></button>
+      <button class="edButton" id="edBtnBgColor" onClick="showColorPicker('bg')" title="Background Color" style="background-color: #ff0000"><img src="ico/bg_color.png"></button>
+      <button class="edButton" id="edBtnApplyColor" onClick="applyColor()" title="Apply Colors" style="font-size: 20px; font-weight: bold">&check;</button>
+      
+      <span class="edSeparator"></span>
+
+      <button class="edButton" id="edBtnHr" onClick="insertTag('insertHorizontalRule', null)" title="Horizontal Rule"><hr style="display: inline-block; width: 30px"></button>
+      <button class="edButton" id="edBtnChar" onClick="showChars()" title="Special Characters">&copy;&reg;&frac12;</button>
+      <button class="edButton" id="edBtnLink" onClick="insertTag('createLink', prompt('Enter link URL'))" title="Insert Link"><img src="ico/link.png"></button>
+      <button class="edButton" id="edBtnImg" onClick="insertTag('insertImage', prompt('Enter image URL'))" title="Insert Image"><img src="ico/image.png"></button>
+      <button class="edButton" id="edBtnMedia" onClick="insertMedia(prompt('Enter media URL'))" title="Insert Media"><img src="ico/media.png"></button>
+      
+      <span class="edSeparator"></span>
+      
+      <button class="edButton" id="save" onClick="saveEdits()" style="font-family: Symbola; font-size: 16px" title="Save Changes"><img src="ico/save.png"></button>
+      
+      <span class="edButton" id="edStatus" disabled="disabled"></span>
+      
+      <span class="edButton" id="editorDebug" disabled="disabled"></span>
+        
+    </div>
+
+    <table id="colorPicker" border="1">
+      <tr>
+        <td style="background-color: #000000" onClick="selectColor('000000')"></td>
+        <td style="background-color: #111111" onClick="selectColor('111111')"></td>
+        <td style="background-color: #222222" onClick="selectColor('222222')"></td>
+        <td style="background-color: #333333" onClick="selectColor('333333')"></td>
+        <td style="background-color: #444444" onClick="selectColor('444444')"></td>
+      </tr>
+      <tr>
+        <td style="background-color: #555555" onClick="selectColor('555555')"></td>
+        <td style="background-color: #666666" onClick="selectColor('666666')"></td>
+        <td style="background-color: #777777" onClick="selectColor('777777')"></td>
+        <td style="background-color: #888888" onClick="selectColor('888888')"></td>
+        <td style="background-color: #999999" onClick="selectColor('999999')"></td>
+      </tr>
+      <tr>
+        <td style="background-color: #aaaaaa" onClick="selectColor('aaaaaa')"></td>
+        <td style="background-color: #bbbbbb" onClick="selectColor('bbbbbb')"></td>
+        <td style="background-color: #cccccc" onClick="selectColor('cccccc')"></td>
+        <td style="background-color: #dddddd" onClick="selectColor('dddddd')"></td>
+        <td style="background-color: #ffffff" onClick="selectColor('ffffff')"></td>
+      </tr>
+      <tr>
+        <td style="background-color: #330000" onClick="selectColor('330000')"></td>
+        <td style="background-color: #660000" onClick="selectColor('660000')"></td>
+        <td style="background-color: #990000" onClick="selectColor('990000')"></td>
+        <td style="background-color: #cc0000" onClick="selectColor('cc0000')"></td>
+        <td style="background-color: #ff0000" onClick="selectColor('ff0000')"></td>
+      </tr>
+      <tr>
+        <td style="background-color: #331900" onClick="selectColor('331900')"></td>
+        <td style="background-color: #663300" onClick="selectColor('663300')"></td>
+        <td style="background-color: #994c00" onClick="selectColor('994c00')"></td>
+        <td style="background-color: #cc6600" onClick="selectColor('cc6600')"></td>
+        <td style="background-color: #ff7f00" onClick="selectColor('ff7f00')"></td>
+      </tr>
+      <tr>
+        <td style="background-color: #333300" onClick="selectColor('333300')"></td>
+        <td style="background-color: #666600" onClick="selectColor('666600')"></td>
+        <td style="background-color: #999900" onClick="selectColor('999900')"></td>
+        <td style="background-color: #cccc00" onClick="selectColor('cccc00')"></td>
+        <td style="background-color: #ffff00" onClick="selectColor('ffff00')"></td>
+      </tr>
+      <tr>
+        <td style="background-color: #193300" onClick="selectColor('193300')"></td>
+        <td style="background-color: #336600" onClick="selectColor('336600')"></td>
+        <td style="background-color: #4c9900" onClick="selectColor('4c9900')"></td>
+        <td style="background-color: #66cc00" onClick="selectColor('66cc00')"></td>
+        <td style="background-color: #7fff00" onClick="selectColor('7fff00')"></td>
+      </tr>
+      <tr>
+        <td style="background-color: #003300" onClick="selectColor('003300')"></td>
+        <td style="background-color: #006600" onClick="selectColor('006600')"></td>
+        <td style="background-color: #009900" onClick="selectColor('009900')"></td>
+        <td style="background-color: #00cc00" onClick="selectColor('00cc00')"></td>
+        <td style="background-color: #00ff00" onClick="selectColor('00ff00')"></td>
+      </tr>
+      <tr>
+        <td style="background-color: #003319" onClick="selectColor('003319')"></td>
+        <td style="background-color: #006633" onClick="selectColor('006633')"></td>
+        <td style="background-color: #00994c" onClick="selectColor('00994c')"></td>
+        <td style="background-color: #00cc66" onClick="selectColor('00cc66')"></td>
+        <td style="background-color: #00ff7f" onClick="selectColor('00ff7f')"></td>
+      </tr>
+      <tr>
+        <td style="background-color: #003333" onClick="selectColor('003333')"></td>
+        <td style="background-color: #006666" onClick="selectColor('006666')"></td>
+        <td style="background-color: #009999" onClick="selectColor('009999')"></td>
+        <td style="background-color: #00cccc" onClick="selectColor('00cccc')"></td>
+        <td style="background-color: #00ffff" onClick="selectColor('00ffff')"></td>
+      </tr>
+      <tr>
+        <td style="background-color: #001933" onClick="selectColor('001933')"></td>
+        <td style="background-color: #003366" onClick="selectColor('003366')"></td>
+        <td style="background-color: #004c99" onClick="selectColor('004c99')"></td>
+        <td style="background-color: #0066cc" onClick="selectColor('0066cc')"></td>
+        <td style="background-color: #007fff" onClick="selectColor('007fff')"></td>
+      </tr>
+      <tr>
+        <td style="background-color: #000033" onClick="selectColor('000033')"></td>
+        <td style="background-color: #000066" onClick="selectColor('000066')"></td>
+        <td style="background-color: #000099" onClick="selectColor('000099')"></td>
+        <td style="background-color: #0000cc" onClick="selectColor('0000cc')"></td>
+        <td style="background-color: #0000ff" onClick="selectColor('0000ff')"></td>
+      </tr>
+      <tr>
+        <td style="background-color: #190033" onClick="selectColor('190033')"></td>
+        <td style="background-color: #330066" onClick="selectColor('330066')"></td>
+        <td style="background-color: #4c0099" onClick="selectColor('4c0099')"></td>
+        <td style="background-color: #6600cc" onClick="selectColor('6600cc')"></td>
+        <td style="background-color: #7f00ff" onClick="selectColor('7f00ff')"></td>
+      </tr>
+      <tr>
+        <td style="background-color: #330033" onClick="selectColor('330033')"></td>
+        <td style="background-color: #660066" onClick="selectColor('660066')"></td>
+        <td style="background-color: #990099" onClick="selectColor('990099')"></td>
+        <td style="background-color: #cc00cc" onClick="selectColor('cc00cc')"></td>
+        <td style="background-color: #ff00ff" onClick="selectColor('ff00ff')"></td>
+      </tr>
+      <tr>
+        <td style="background-color: #330019" onClick="selectColor('330019')"></td>
+        <td style="background-color: #660033" onClick="selectColor('660033')"></td>
+        <td style="background-color: #99004c" onClick="selectColor('99004c')"></td>
+        <td style="background-color: #cc0066" onClick="selectColor('cc0066')"></td>
+        <td style="background-color: #ff007f" onClick="selectColor('ff007f')"></td>
+      </tr>
+        <tr><td colspan="5" style="height: auto; border: none"><button class=btnLoad style="width: 100%; height: 100%" onClick="selectColor('none')">Default/Transparent</button></td></tr>
+      <tr><td colspan="5" style="height: auto; border: none"><input type="text" id="pickColor"></td></tr>
+        <tr><td colspan="5" style="height: auto; border: none"><button class=btnLoad style="width: 100%; height: 100%" onClick="useColor()">Use This Color</button></td></tr>
+        <tr><td colspan="5" style="height: auto; border: none"><button class=btnLoad style="width: 100%; height: 100%" onClick="hideColorPicker()">Cancel</button></td></tr>
+    </table>
+
+    <table id="chars" border="1"><tr>
+      <td onClick="selectChar('lt')">&lt;</td>
+      <td onClick="selectChar('gt')">&gt;</td>
+      <td onClick="selectChar('amp')">&amp;</td>
+      <td onClick="selectChar('iexcl')">&iexcl;</td>
+      <td onClick="selectChar('iquest')">&iquest;</td>
+      <td onClick="selectChar('cent')">&cent;</td>
+      <td onClick="selectChar('pound')">&pound;</td>
+      <td onClick="selectChar('curren')">&curren;</td>
+      <td onClick="selectChar('yen')">&yen;</td>
+      </tr><tr>
+      <td onClick="selectChar('brvbar')">&brvbar;</td>
+      <td onClick="selectChar('sect')">&sect;</td>
+      <td onClick="selectChar('copy')">&copy;</td>
+      <td onClick="selectChar('laquo')">&laquo;</td>
+      <td onClick="selectChar('raquo')">&raquo;</td>
+      <td onClick="selectChar('not')">&not;</td>
+      <td onClick="selectChar('reg')">&reg;</td>
+      <td onClick="selectChar('macr')">&macr;</td>
+      <td onClick="selectChar('deg')">&deg;</td>
+      </tr><tr>
+      <td onClick="selectChar('plusmn')">&plusmn;</td>
+      <td onClick="selectChar('micro')">&micro;</td>
+      <td onClick="selectChar('para')">&para;</td>
+      <td onClick="selectChar('middot')">&middot;</td>
+      <td onClick="selectChar('frac14')">&frac14;</td>
+      <td onClick="selectChar('frac12')">&frac12;</td>
+      <td onClick="selectChar('frac34')">&frac34;</td>
+      <td onClick="selectChar('times')">&times;</td>
+      <td onClick="selectChar('divide')">&divide;</td>
+      </tr><tr>
+      <td colspan="3" style="height: auto; border: none"><input type="text" id="pickChar" size="7"></td>
+      <td colspan="3" style="height: auto; border: none"><button style="width: 100%; height: 100%" onClick="useChar()">Choose</button></td>
+      <td colspan="3" style="height: auto; border: none"><button style="width: 100%; height: 100%" onClick="hideChars()">Cancel</button></td>
+  </tr></table>
+  
+    <span id="title" onFocus="setEditField('title', true)" contenteditable>Welcome to 5edit!</span>
+    
+    <div id="field1" onFocus="setEditField('field1', false)" contenteditable>
+      I have tried multiple editors, specifically TinyMCE and Raptor, with mixed results.
+      I liked how TinyMCE functioned, but wanted to take advantage of contenteditable HTML5 elements.
+      TinyMCE relies heavily on textareas, and we don't want that.
+      Raptor had issues dealing with multiple editable regions on a screen.
+      How about getting back to the basics?
+      Keep in mind I'm going to limit the number of features in a sense- this is <b>LIGHT</b>weight....  see what I did there?
+      Introducing 5edit!
+    </div>
+    
+    <div id="field2" onFocus="setEditField('field2', false)" contenteditable>
+      5edit mostly utilizes the DOM exec command function.
+      It does rely on <a href="http://code.google.com/p/rangy/">Rangy</a> for detecting selection for applying colors.
+      This is only done to force similar behaviors between browsers, as some change the container element's background color instead of the selection.
+    </div>
+    
+    <div id="field3" onFocus="setEditField('field3', false)" contenteditable>
+      Initialize a field with the <i>contenteditable</i> attribute in any tag that supports it.
+      Let 5edit know you're editing something with an <i>onFocus</i> event that calls <i>setEditField(field, limit)</i>.
+      <br><i>field</i> is a string variable that needs to match the id of the editable element.
+      <br><i>limit</i> is a boolean: <i>true</i> indicates that you only want a few features enabled, while <i>false</i> enables all editing options.
+    </div>
+    
+    <div>
+      <p>Copyright &copy; 2012 <a href="mailto:makr@makrit.net">Mark Gullings</a></p>
+      <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+      <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+      <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+    </div>
+    
+  </div>
+  
+  <script>
+    ready(InitPage);
+  </script>
+  
+</body></html>
